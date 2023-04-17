@@ -1,0 +1,40 @@
+name: Building ParallelZone with the basic Docker image
+on:
+  push:
+    branches: [ master ]
+jobs:
+  container-test-job:
+    runs-on: ubuntu-latest
+    container:
+            image: ghcr.io/yzhang-23/build_parallelzone:v3
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_PAT }}
+    steps:
+      - name: Check out ParalleZone
+        shell: bash
+        run: git clone https://github.com/NWChemEx-Project/ParallelZone.git
+      - name: Generate the toolchain files
+        run: |
+          cat << 'EOF' > toolchain.cmake
+          set(CMAKE_C_COMPILER   gcc)
+          set(CMAKE_CXX_COMPILER g++)
+          set(MPI_C_COMPILER     mpicc)
+          set(MPI_CXX_COMPILER   mpic++)
+          set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+          set(BUILD_SHARED_LIBS TRUE)
+          set(BUILD_TESTING TRUE)
+          set(CMAKE_CXX_STANDARD 17)
+          EOF
+      - name: Generate project buildsystem
+        run: |
+          cd ParallelZone
+          cmake -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE=`pwd`/../toolchain.cmake \
+          -DCMAKE_BUILD_TYPE=Debug
+      - name: Build the project
+        run: cmake --build build -- -j 8 
+      - name: Run tests
+        run: |
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 
+          cd build && ctest -j8
