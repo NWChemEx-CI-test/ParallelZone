@@ -32,7 +32,9 @@ jobs:
           cmake -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE=`pwd`/../toolchain.cmake \
           -DCMAKE_BUILD_TYPE=Debug
       - name: Build the project
-        run: cmake --build build -- -j 8 
+        run: |
+          cd ParallelZone
+          cmake --build build -- -j 8 
       - name: Run tests
         run: |
           export OMPI_ALLOW_RUN_AS_ROOT=1
