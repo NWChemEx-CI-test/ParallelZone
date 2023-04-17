@@ -1,9 +1,7 @@
 name: Building the Docker image containing the basic tools for building ParallelZone
 on:
   push:
-    paths:
-      - Docker/**
-
+    branches: [ master ]
 jobs:
   docker-image-build:
     runs-on: ubuntu-latest
