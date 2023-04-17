@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 LABEL maintainer="Yu Zhang <yzhang23@ameslab.gov>" \
-      description="Basic building requirements for ParallelZone on ubuntu 20.04 image."
+      description="Basic building environment for ParallelZone based on the ubuntu 20.04 image."
 
 RUN    apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
