@@ -14,6 +14,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_PAT }}
     - name: Build the docker image and push
+      uses: actions/checkout@v2
       run: |
         docker build -t ghcr.io/yzhang-23/build_parallelzone:v4 -f ParallelZone.Dockerfile .
         docker push ghcr.io/yzhang-23/build_parallelzone:v4
