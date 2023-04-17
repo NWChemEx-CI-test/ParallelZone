@@ -18,5 +18,5 @@ jobs:
     - name: Build the docker image and push
       run: |
         cd ParalleZone
-        docker build -t ghcr.io/yzhang-23/build_parallelzone:v4 -f Docker/ParallelZone.Dockerfile .
+        docker build -t ghcr.io/yzhang-23/build_parallelzone:v4 -f ParallelZone.Dockerfile .
         docker push ghcr.io/yzhang-23/build_parallelzone:v4
