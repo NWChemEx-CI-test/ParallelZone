@@ -3,10 +3,10 @@ on:
   push:
     branches: [ master ]
 jobs:
-  container-test-job:
+  container-building-job:
     runs-on: ubuntu-latest
     container:
-            image: ghcr.io/yzhang-23/build_parallelzone:v3
+      image: ghcr.io/yzhang-23/build_parallelzone:v3
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_PAT }}
