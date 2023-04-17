@@ -15,6 +15,5 @@ jobs:
         password: ${{ secrets.DOCKER_PAT }}
     - name: Build the docker image and push
       run: |
-        cd ParalleZone
         docker build -t ghcr.io/yzhang-23/build_parallelzone:v4 -f ParallelZone.Dockerfile .
         docker push ghcr.io/yzhang-23/build_parallelzone:v4
