@@ -19,6 +19,8 @@ jobs:
             #- name: Check out NWChemEx/.github repo
             #  shell: bash
             #  run: git clone https://github.com/NWChemEx-Project/.github.git
+      - name: Check the path
+        run: ls -lrtd *
       - name: Build documentation
         uses: NWChemEx-Project/.github/actions/build_docs@master
         with:
