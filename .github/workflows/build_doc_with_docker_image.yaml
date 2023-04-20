@@ -11,11 +11,11 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_PAT }}
     steps:
-      - name: Check out NWChemEx/.github repo
-        shell: bash
-        run: git clone https://github.com/NWChemEx-Project/.github.git
+            #- name: Check out NWChemEx/.github repo
+            #  shell: bash
+            #  run: git clone https://github.com/NWChemEx-Project/.github.git
       - name: Build documentation
-        uses: .github/actions/build_docs@master
+        uses: NWChemEx-Project/.github/actions/build_docs@master
         with:
           target: ${{inputs.target}}
           skip_doxygen: ${{inputs.skip_doxygen}}
