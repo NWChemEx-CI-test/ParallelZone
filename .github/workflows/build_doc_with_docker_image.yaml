@@ -14,18 +14,18 @@ jobs:
       - name: checkout action
         uses: actions/checkout@v3
         with:
-          repository: yzhang-23/ParallelZone 
-          path: ParallelZone
+          repository: NWChemEx-Project/.github 
+          path: NWChemEx-Project/.github
             #- name: Check out NWChemEx/.github repo
             #  shell: bash
             #  run: git clone https://github.com/NWChemEx-Project/.github.git
-            #- name: Build documentation
-            #  uses: NWChemEx-Project/.github/actions/build_docs@master
-            #  with:
-            #    target: ${{inputs.target}}
-            #    skip_doxygen: ${{inputs.skip_doxygen}}
-            #- name: Deploy to GitHub Pages
-            #  uses: peaceiris/actions-gh-pages@v3
-            #  with:
-            #    GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            #    publish_dir: ./docs/build/html
+     - name: Build documentation
+       uses: NWChemEx-Project/.github/actions/build_docs@master
+       with:
+         target: ${{inputs.target}}
+         skip_doxygen: ${{inputs.skip_doxygen}}
+     - name: Deploy to GitHub Pages
+       uses: peaceiris/actions-gh-pages@v3
+       with:
+         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+         publish_dir: ./docs/build/html
