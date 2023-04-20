@@ -21,7 +21,7 @@ jobs:
             #  run: git clone https://github.com/NWChemEx-Project/.github.git
       - name: Check the path
         run: |
-          cd NWChemEx/.github
+          cd NWChemEx-Project/.github
           pwd
           ls -lrtd *
       - name: Build documentation
