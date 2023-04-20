@@ -1,0 +1,26 @@
+name: Building the ParallelZone documentation with the basic Docker image
+on:
+  push:
+    branches: [ master ]
+jobs:
+  container-building-job:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/yzhang-23/build_parallelzone_doc:v1
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_PAT }}
+    steps:
+      - name: Check out NWChemEx/.github repo
+        shell: bash
+        run: git clone https://github.com/NWChemEx-Project/.github.git
+      - name: Build documentation
+        uses: .github/actions/build_docs@master
+        with:
+          target: ${{inputs.target}}
+          skip_doxygen: ${{inputs.skip_doxygen}}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          publish_dir: ./docs/build/html
