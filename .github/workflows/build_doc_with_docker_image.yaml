@@ -25,7 +25,9 @@ jobs:
             #    pwd
             #    ls -lrtd *
       - name: Install python tools
-        run: apt-get install python3.8-distutils
+        run: |
+          apt update
+          apt install python3-venv
       - name: Build documentation
         uses: yzhang-23/.github/actions/build_docs@master
         with:
