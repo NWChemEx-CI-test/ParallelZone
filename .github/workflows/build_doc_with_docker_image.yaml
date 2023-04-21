@@ -24,6 +24,8 @@ jobs:
             #    cd NWChemEx-Project/.github
             #    pwd
             #    ls -lrtd *
+      - name: Install python tools
+        run: apt-get install python3.8-distutils
       - name: Build documentation
         uses: yzhang-23/.github/actions/build_docs@master
         with:
