@@ -11,7 +11,7 @@ RUN    apt-get update \
 		python3-dev \
 		python3-sphinx \
 		pip3 \
-		python3-venv \
+		python3.8-venv \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
