@@ -19,7 +19,8 @@ jobs:
   build-with-clang:
     uses: yzhang-23/.github/.github/workflows/image-c-cpp_tmpl.yaml@master
     with: 
-      repo: ${{ GITHUB_REPOSITORY }}
+    #repo: ${{ GITHUB_REPOSITORY }}
+      repo: ParalleZone
       gcc-build: false
       clang-build: true
       ninja_build: true
