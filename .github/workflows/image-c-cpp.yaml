@@ -1,4 +1,4 @@
-name: C_C++_CI
+name: C_C++_CI with docker image
 on:
   pull_request:
     branches:
