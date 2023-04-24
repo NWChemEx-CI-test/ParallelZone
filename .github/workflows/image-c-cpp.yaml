@@ -1,0 +1,26 @@
+name: C_C++_CI
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-with-gcc:
+    uses: yzhang-23/.github/.github/workflows/image-c-cpp_tmpl.yaml@master
+    with:
+      repo: ${{ GITHUB_REPOSITORY }}
+      gcc-build: true
+      clang-build: false
+      ninja_build: true
+    secrets:
+      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
+
+  build-with-clang:
+    uses: yzhang-23/.github/.github/workflows/image-c-cpp_tmpl.yaml@master
+    with: 
+      repo: ${{ GITHUB_REPOSITORY }}
+      gcc-build: false
+      clang-build: true
+      ninja_build: true
+    secrets:
+      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
