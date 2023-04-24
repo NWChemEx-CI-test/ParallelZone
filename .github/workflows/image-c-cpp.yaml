@@ -15,6 +15,7 @@ jobs:
       ninja_build: true
     secrets:
       CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
+      DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
 
   build-with-clang:
     uses: yzhang-23/.github/.github/workflows/image-c-cpp_tmpl.yaml@master
@@ -26,3 +27,4 @@ jobs:
       ninja_build: true
     secrets:
       CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
+      DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
