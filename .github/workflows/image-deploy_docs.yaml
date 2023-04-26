@@ -9,4 +9,5 @@ jobs:
     uses: yzhang-23/.github/.github/workflows/image-deploy_docs_tmpl.yaml@master
     with:
       target: parallelzone_cxx_api
-      ##
+    secrets:
+      DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
