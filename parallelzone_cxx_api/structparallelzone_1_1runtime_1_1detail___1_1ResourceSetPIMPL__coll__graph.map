@@ -1,0 +1,5 @@
+<map id="parallelzone::runtime::detail_::ResourceSetPIMPL" name="parallelzone::runtime::detail_::ResourceSetPIMPL">
+<area shape="rect" id="node1" title="Implements the ResourceSet." alt="" coords="121,109,323,151"/>
+<area shape="rect" id="node2" href="$classparallelzone_1_1hardware_1_1RAM.html" title="Provides a runtime API for interacting with memory." alt="" coords="5,13,215,39"/>
+<area shape="rect" id="node3" href="$classparallelzone_1_1mpi__helpers_1_1CommPP.html" title="A little wrapper around an MPI communicator to make it more C++ friendly." alt="" coords="239,5,429,47"/>
+</map>

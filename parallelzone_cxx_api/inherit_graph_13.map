@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,209,96,235"/>
+<area shape="rect" id="node2" href="$structparallelzone_1_1mpi__helpers_1_1MPIDataType.html" title="Primary template for mapping type T to its MPI enum." alt="" coords="172,5,363,47"/>
+<area shape="rect" id="node3" href="$structparallelzone_1_1mpi__helpers_1_1MPIOp.html" title="Maps a functor to an MPI operation." alt="" coords="172,71,363,112"/>
+<area shape="rect" id="node4" href="$structparallelzone_1_1mpi__helpers_1_1NeedsSerialized_3_01BinaryBuffer_01_4.html" title="Registers BinaryBuffer as not needing serialized." alt="" coords="144,136,391,177"/>
+<area shape="rect" id="node5" href="$structparallelzone_1_1mpi__helpers_1_1NeedsSerialized_3_01BinaryView_01_4.html" title="Registers BinaryView as not needing serialized." alt="" coords="148,201,387,243"/>
+<area shape="rect" id="node6" href="$structparallelzone_1_1mpi__helpers_1_1NeedsSerialized_3_01ConstBinaryView_01_4.html" title="Registers ConstBinaryView as not needing serialized." alt="" coords="153,267,382,323"/>
+<area shape="rect" id="node7" href="$structparallelzone_1_1mpi__helpers_1_1NeedsSerialized_3_01std_1_1string_01_4.html" title="Registers std::string as not needing to be serialized." alt="" coords="172,347,363,403"/>
+<area shape="rect" id="node8" href="$structparallelzone_1_1mpi__helpers_1_1NeedsSerialized_3_01std_1_1vector_3_01T_01_4_00_01std_1_1e3ad4c2a234ead607aefb9a963a6c8482.html" title="Specialization for std::vector&lt;T&gt; (T trivially copyable)" alt="" coords="154,427,381,513"/>
+</map>

@@ -1,0 +1,16 @@
+<map id="include/parallelzone/mpi_helpers/binary_buffer/binary_view.ipp" name="include/parallelzone/mpi_helpers/binary_buffer/binary_view.ipp">
+<area shape="rect" id="node1" title=" " alt="" coords="110,5,306,61"/>
+<area shape="rect" id="node2" href="$binary__view_8hpp_source.html" title=" " alt="" coords="110,109,306,165"/>
+<area shape="rect" id="node3" href="$ram_8hpp_source.html" title=" " alt="" coords="22,414,197,455"/>
+<area shape="rect" id="node12" href="$binary__buffer_8hpp_source.html" title=" " alt="" coords="246,213,442,269"/>
+<area shape="rect" id="node13" href="$commpp_8hpp_source.html" title=" " alt="" coords="216,317,472,359"/>
+<area shape="rect" id="node4" href="$resource__set_8hpp_source.html" title=" " alt="" coords="5,511,197,552"/>
+<area shape="rect" id="node11" href="$ram__pimpl_8hpp_source.html" title=" " alt="" coords="299,511,501,552"/>
+<area shape="rect" id="node5" href="$runtime_8hpp.html" title=" " alt="" coords="17,689,177,731"/>
+<area shape="rect" id="node7" href="$runtime__view_8hpp_source.html" title=" " alt="" coords="125,600,323,641"/>
+<area shape="rect" id="node8" href="$resource__set__pimpl_8hpp_source.html" title=" " alt="" coords="263,689,492,731"/>
+<area shape="rect" id="node6" href="$parallelzone_8hpp.html" title=" " alt="" coords="21,779,174,820"/>
+<area shape="rect" id="node10" href="$runtime__view__pimpl_8hpp_source.html" title=" " alt="" coords="183,868,417,909"/>
+<area shape="rect" id="node9" href="$runtime__view__pimpl_8ipp.html" title=" " alt="" coords="262,779,493,820"/>
+<area shape="rect" id="node14" href="$commpp__pimpl_8hpp_source.html" title=" " alt="" coords="272,407,451,463"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="parallelzone::mpi_helpers::detail_::BinaryBufferPIMPL&lt; InternalBuffer &gt;" name="parallelzone::mpi_helpers::detail_::BinaryBufferPIMPL&lt; InternalBuffer &gt;">
+<area shape="rect" id="node1" title="Implements base&#39;s API for type InternalBuffer." alt="" coords="21,95,224,151"/>
+<area shape="rect" id="node2" href="$classparallelzone_1_1mpi__helpers_1_1detail___1_1BinaryBufferPIMPLBase.html" title="Allows us to interact with buffer in a type&#45;erased manner." alt="" coords="5,5,240,47"/>
+</map>

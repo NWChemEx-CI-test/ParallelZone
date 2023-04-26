@@ -1,0 +1,4 @@
+<map id="parallelzone::runtime::detail_::RuntimeViewPIMPL" name="parallelzone::runtime::detail_::RuntimeViewPIMPL">
+<area shape="rect" id="node1" title="Holds the state for the RuntimeView class." alt="" coords="5,109,213,151"/>
+<area shape="rect" id="node2" href="$classparallelzone_1_1mpi__helpers_1_1CommPP.html" title="A little wrapper around an MPI communicator to make it more C++ friendly." alt="" coords="14,5,205,47"/>
+</map>

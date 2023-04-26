@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classparallelzone_1_1mpi__helpers_1_1detail___1_1BinaryBufferPIMPLBase.html" title="Allows us to interact with buffer in a type&#45;erased manner." alt="" coords="5,13,240,54"/>
+<area shape="rect" id="node2" href="$classparallelzone_1_1mpi__helpers_1_1detail___1_1BinaryBufferPIMPL.html" title="Implements base&#39;s API for type InternalBuffer." alt="" coords="288,5,491,61"/>
+</map>

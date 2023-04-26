@@ -1,0 +1,6 @@
+<map id="parallelzone::detail_::SpdlogPIMPL" name="parallelzone::detail_::SpdlogPIMPL">
+<area shape="rect" id="node1" title="LoggerPIMPL object which wraps a spdlog::logger." alt="" coords="91,95,237,136"/>
+<area shape="rect" id="node3" href="$classparallelzone_1_1detail___1_1FileSpdlog.html" title="Logger which writes to file." alt="" coords="5,184,152,225"/>
+<area shape="rect" id="node4" href="$classparallelzone_1_1detail___1_1StdoutSpdlog.html" title="Implements LoggerPIMPL so the sink is standard out." alt="" coords="176,184,323,225"/>
+<area shape="rect" id="node2" href="$classparallelzone_1_1detail___1_1LoggerPIMPL.html" title="Defines the API for Logger implementations." alt="" coords="91,5,237,47"/>
+</map>
