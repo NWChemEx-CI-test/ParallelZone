@@ -8,7 +8,7 @@ jobs:
   build-with-gcc:
     uses: NWChemEx-CI-test/.github/.github/workflows/image-c-cpp_tmpl.yaml@master
     with:
-      repo: ParalleZone
+      repo: ParallelZone
       gcc-build: true
       clang-build: false
       ninja_build: true
