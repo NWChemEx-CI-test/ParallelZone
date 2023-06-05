@@ -1,0 +1,12 @@
+name: Test of receiving a repo dispatch
+on:
+  repository_dispatch:
+    types: release_update
+
+jobs:
+  repo_dispatch_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Receive a repo dispatch
+        run: |
+             echo "Release dispatch from a dependent repo received!"

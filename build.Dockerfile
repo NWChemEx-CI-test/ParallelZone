@@ -16,6 +16,7 @@ FROM ubuntu:20.04
 LABEL maintainer="NWChemEx-Project" \
       description="Basic building environment for ParallelZone based on the ubuntu 20.04 image."
 
+# Install basic tools
 RUN    apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
 		git \
@@ -40,6 +41,7 @@ RUN    apt-get update \
 
 ARG CMAKE_VERSION=3.17.0
 
+# Install cmake
 RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh \
       -q -O /tmp/cmake-install.sh \
       && chmod u+x /tmp/cmake-install.sh \
@@ -49,6 +51,7 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cm
 
 ENV PATH="/usr/bin/cmake/bin:${PATH}"
 
+# Install catch2
 RUN cd /tmp \
     && git clone -b v2.13.8 https://github.com/catchorg/Catch2.git \
     && cd Catch2 \
@@ -57,3 +60,37 @@ RUN cd /tmp \
     && cmake --build build --target install \
     && rm -rf /tmp/Catch2
 
+# Install MADNESS
+RUN cd /tmp \
+    && git clone https://github.com/m-a-d-n-e-s-s/madness.git \
+    && cd madness \
+    && git checkout 997e8b458c4234fb6c8c2781a5df59cb14b7e700 \
+    && export BUILD_TARGET=MADworld \
+    && export FIND_TARGET=MADworld \
+    && cmake -DENABLE_UNITTESTS=OFF -DMADNESS_BUILD_MADWORLD_ONLY=ON -DMADNESS_ENABLE_CEREAL=ON -DENABLE_MKL=OFF -DENABLE_ACML=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
+    && cmake --build build \
+    && cmake --build build --target install \
+    && rm -rf /tmp/madness
+
+# Install spdlog
+RUN cd /tmp \
+    && git clone https://github.com/gabime/spdlog.git \
+    && cd spdlog \
+    && git checkout ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36 \
+    && export BUILD_TARGET=spdlog \
+    && export FIND_TARGET=spdlog::spdlog \
+    && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
+    && cmake --build build \
+    && cmake --build build --target install \
+    && rm -rf /tmp/spdlog
+
+# Install cereal
+RUN cd /tmp \
+    && git clone https://github.com/USCiLab/cereal.git \
+    && cd cereal \
+    && export BUILD_TARGET=cereal \
+    && export FIND_TARGET=cereal \
+    && cmake -DJUST_INSTALL_CEREAL=ON -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
+    && cmake --build build \
+    && cmake --build build --target install \
+    && rm -rf /tmp/cereal
