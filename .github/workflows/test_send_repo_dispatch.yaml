@@ -1,0 +1,21 @@
+name: Test of send a repo dispatch
+on:
+  workflow_dispatch:
+          #push:
+          #branches: master
+
+jobs:
+  repo_dispatch_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target_repo: [Utilities]
+    steps:
+      - name: Send release dispatches to target repos
+        uses: NWChemEx-CI-test/.github/actions/repo_dispatch@master
+        with:
+          to_repo: ${{ matrix.target_repo }}
+          DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+          type: build_update
+          from_repo: ParallelZone
+          initial_repo: ParallelZone
