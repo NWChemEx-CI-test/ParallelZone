@@ -68,7 +68,7 @@ jobs:
   build-with-gcc:
     uses: NWChemEx-CI-test/.github/.github/workflows/build_test-dev_tmpl.yaml@master
     needs: [update-building-image, build_update_check]
-    if: always() && (needs.update-building-image.result == success || needs.update-building-image.result == skipped)
+    if: always() && (needs.update-building-image.result == 'success' || needs.update-building-image.result == 'skipped')
     with: 
       repo: Utilities
       clang-build: false
