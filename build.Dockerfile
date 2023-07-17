@@ -81,7 +81,7 @@ RUN cd /tmp \
     && git checkout ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36 \
     && export BUILD_TARGET=spdlog \
     && export FIND_TARGET=spdlog::spdlog \
-    && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install CMAKE_POSITION_INDEPENDENT_CODE=ON -Bbuild . \
+    && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -DCMAKE_POSITION_INDEPENDENT_CODE=ON -Bbuild . \
     && cmake --build build \
     && cmake --build build --target install \
     && rm -rf /tmp/spdlog
