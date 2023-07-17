@@ -25,6 +25,7 @@ jobs:
     uses: NWChemEx-CI-test/.github/.github/workflows/update_building_image_tmpl.yaml@master
     with:
       repo_name: ParallelZone
+    secrets: inherit
 
   build-update-repo_dispatch:
     runs-on: ubuntu-latest
