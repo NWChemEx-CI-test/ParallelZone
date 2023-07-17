@@ -47,21 +47,22 @@ jobs:
     needs: docker-file-changes
     outputs:
       bi_check: ${{ steps.building-image-update.outputs.tag }}
-    - name: Check if the building image has been updated
-      id: building-image-update
-      run: |
-        if [[ ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }} ]]; then
-           tag="test"
-        else
-           tag="stable"
-        fi
-        echo "$tag" >> "$GITHUB_OUTPUT"
-        echo "tag=$tag" > tag.dat
-    - name: Upload tag as an artifact
-      uses: actions/upload-artifact@v3
-        with:
-          name: tag-artifact
-          path: tag.dat
+    steps:
+      - name: Check if the building image has been updated
+        id: building-image-update
+        run: |
+          if [[ ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }} ]]; then
+             tag="test"
+          else
+             tag="stable"
+          fi
+          echo "$tag" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" > tag.dat
+      - name: Upload tag as an artifact
+        uses: actions/upload-artifact@v3
+          with:
+            name: tag-artifact
+            path: tag.dat
 
   build-with-gcc:
     uses: NWChemEx-CI-test/.github/.github/workflows/build_test_dev_tmpl.yaml@master
