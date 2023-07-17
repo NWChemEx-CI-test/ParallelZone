@@ -67,7 +67,7 @@ jobs:
           path: tag.dat
 
   build-with-gcc:
-    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_dev_tmpl.yaml@master
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test-dev_tmpl.yaml@master
     needs: [update-building-image, build_update_check]
     with: 
       repo: Utilities
