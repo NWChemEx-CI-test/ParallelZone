@@ -111,8 +111,14 @@ if("${BUILD_TESTING}")
         VERSION v2.13.9
     )
     cmaize_add_tests(
-        test_parallelzone
+        test_unit_parallelzone
         SOURCE_DIR "${CXX_TEST_DIR}/unit_tests"
+        INCLUDE_DIRS "${project_src_dir}"
+        DEPENDS Catch2 MADNESS parallelzone cereal
+    )
+    cmaize_add_tests(
+        test_integration_parallelzone
+        SOURCE_DIR "${CXX_TEST_DIR}/integration_tests"
         INCLUDE_DIRS "${project_src_dir}"
         DEPENDS Catch2 MADNESS parallelzone cereal
     )
