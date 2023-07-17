@@ -87,7 +87,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}     
 
   Release:
-    runs-on: ubuntu-latest
     needs: [create_update_artifact, check_update_record]
     if: ${{ needs.check_update_record.outputs.all_updated == 'true' }}
     strategy:
