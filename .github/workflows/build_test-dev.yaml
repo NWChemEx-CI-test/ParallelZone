@@ -34,13 +34,15 @@ jobs:
       matrix:
         repos: [Utilities, PluginPlay]
     if: ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }}
-    uses: NWChemEx-CI-test/.github/actions/repo_dispatch@master
-    with:
-      to_repo: ${{ matrix.repos }}
-      type: build_update
-      DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
-      from_repo: ParallelZone
-      initial_repo: ParallelZone
+    steps:
+      - name: send build update dispatch
+        uses: NWChemEx-CI-test/.github/actions/repo_dispatch@master
+        with:
+          to_repo: ${{ matrix.repos }}
+          type: build_update
+          DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+          from_repo: ParallelZone
+          initial_repo: ParallelZone
 
   build_update_check:
     runs-on: ubuntu-latest
