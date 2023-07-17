@@ -17,7 +17,7 @@ jobs:
       with:
         filters: |
           bdfile:
-            - 'build.Dockfile'
+            - 'build.Dockerfile'
 
   update-building-image:
     needs: docker-file-changes
