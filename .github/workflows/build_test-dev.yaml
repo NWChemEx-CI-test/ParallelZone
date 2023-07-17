@@ -52,7 +52,7 @@ jobs:
       - name: Check if the building image has been updated
         id: building-image-update
         run: |
-          if [[ ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }} ]]; then
+          if [ ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }} ]; then
              tag="test"
           else
              tag="stable"
