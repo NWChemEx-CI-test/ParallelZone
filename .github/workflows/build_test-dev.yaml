@@ -57,7 +57,7 @@ jobs:
           else
              tag="stable"
           fi
-          echo "$tag" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> $GITHUB_OUTPUT
           echo "tag=$tag" > tag.dat
       - name: Upload tag as an artifact
         uses: actions/upload-artifact@v3
