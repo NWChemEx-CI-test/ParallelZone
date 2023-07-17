@@ -60,9 +60,9 @@ jobs:
           echo "tag=$tag" > tag.dat
       - name: Upload tag as an artifact
         uses: actions/upload-artifact@v3
-          with:
-            name: tag-artifact
-            path: tag.dat
+        with:
+          name: tag-artifact
+          path: tag.dat
 
   build-with-gcc:
     uses: NWChemEx-CI-test/.github/.github/workflows/build_test_dev_tmpl.yaml@master
