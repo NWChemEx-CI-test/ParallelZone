@@ -91,7 +91,8 @@ jobs:
     if: ${{ needs.check_update_record.outputs.all_updated == 'true' }}
     strategy:
       matrix:
-        repos: [ParallelZone, Utilities, TensorWrapper, PluginPlay, Chemist, SimDE]
+        repos: [ParallelZone]
+        #repos: [ParallelZone, Utilities, TensorWrapper, PluginPlay, Chemist, SimDE]
           #repos: < [Utilities, TensorWrapper, PluginPlay, Chemist, SimDE,
           # SCF, Integrals, ChemCache, CASSCF, FriendZone, MP2,
           # NWPW, NWXELSI, SCFGradients, NWChemEX, NUX]
