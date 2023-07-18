@@ -82,6 +82,7 @@ RUN cd /tmp \
     && export BUILD_TARGET=spdlog \
     && export FIND_TARGET=spdlog::spdlog \
     && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -DCMAKE_CXX_FLAGS="-fPIC" -Bbuild . \
+    #&& cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -DBUILD_SHARED_LIBS=1 -Bbuild . \
     && cmake --build build \
     && cmake --build build --target install \
     && rm -rf /tmp/spdlog
