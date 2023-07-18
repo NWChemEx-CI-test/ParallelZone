@@ -16,7 +16,7 @@ FROM ubuntu:20.04
 LABEL maintainer="NWChemEx-Project" \
       description="Basic building environment for ParallelZone based on the ubuntu 20.04 image."
 
-# Modify this line to test CI workflows #######
+# Modify this line to test CI workflows ########
 
 # Install basic tools
 RUN    apt-get update \
