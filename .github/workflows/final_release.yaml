@@ -104,7 +104,7 @@ jobs:
   Delete-artifact:
     runs-on: ubuntu-test
     needs: [create_update_artifact, check_update_record]
-    if: ${{ needs.check_update_record.outputs.all_updated == true }}
+    if: ${{ needs.check_update_record.outputs.all_updated == 'true' }}
     steps:
       - uses: geekyeggo/delete-artifact@v2
         with:
