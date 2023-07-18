@@ -16,6 +16,8 @@ FROM ubuntu:20.04
 LABEL maintainer="NWChemEx-Project" \
       description="Basic building environment for ParallelZone based on the ubuntu 20.04 image."
 
+# Modify this line to test CI workflows ########
+
 # Install basic tools
 RUN    apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -79,7 +81,7 @@ RUN cd /tmp \
     && git checkout ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36 \
     && export BUILD_TARGET=spdlog \
     && export FIND_TARGET=spdlog::spdlog \
-    && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
+    && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -DCMAKE_CXX_FLAGS="-fPIC" -Bbuild . \
     && cmake --build build \
     && cmake --build build --target install \
     && rm -rf /tmp/spdlog
