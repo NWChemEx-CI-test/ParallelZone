@@ -106,6 +106,7 @@ jobs:
       integration_test: true
       install: true
       build_image_tag: test
+      ref: dev
     secrets: inherit
 
 # Update other repos
