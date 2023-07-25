@@ -32,7 +32,7 @@ jobs:
     needs: update-building-image
     strategy:
       matrix:
-        repos: [Utilities, PluginPlay]
+        repos: [Utilities, PluginPlay, TensorWrapper, Chemist]
     if: ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }}
     steps:
       - name: send build update dispatch
@@ -71,7 +71,7 @@ jobs:
     needs: [update-building-image, build_update_check]
     if: always() && (needs.update-building-image.result == 'success' || needs.update-building-image.result == 'skipped')
     with: 
-      repo: Utilities
+      repo: ParallelZone
       clang-build: false
       gcc-build: true
       ninja_build: true
