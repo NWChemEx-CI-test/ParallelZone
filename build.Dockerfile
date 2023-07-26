@@ -67,6 +67,7 @@ RUN cd /tmp \
     && git clone https://github.com/m-a-d-n-e-s-s/madness.git \
     && cd madness \
     && git checkout 997e8b458c4234fb6c8c2781a5df59cb14b7e700 \
+    #&& git checkout eee5fd9f940ef422ee4ee5abf852c910bc826fd4 \
     && export BUILD_TARGET=MADworld \
     && export FIND_TARGET=MADworld \
     && cmake -DENABLE_UNITTESTS=OFF -DMADNESS_BUILD_MADWORLD_ONLY=ON -DMADNESS_ENABLE_CEREAL=ON -DENABLE_MKL=OFF -DENABLE_ACML=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
@@ -91,6 +92,7 @@ RUN cd /tmp \
 RUN cd /tmp \
     && git clone https://github.com/USCiLab/cereal.git \
     && cd cereal \
+    && git checkout tags/v1.3.0 \
     && export BUILD_TARGET=cereal \
     && export FIND_TARGET=cereal \
     && cmake -DJUST_INSTALL_CEREAL=ON -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
