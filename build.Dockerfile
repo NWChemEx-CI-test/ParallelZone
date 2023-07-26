@@ -92,7 +92,7 @@ RUN cd /tmp \
 RUN cd /tmp \
     && git clone https://github.com/USCiLab/cereal.git \
     && cd cereal \
-    && git checkout tags/v1.0.0 \
+    && git checkout tags/v1.3.2 \
     && export BUILD_TARGET=cereal \
     && export FIND_TARGET=cereal \
     && cmake -DJUST_INSTALL_CEREAL=ON -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
