@@ -1,0 +1,130 @@
+name: Build test release
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  docker-file-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      build_dockfile: ${{ steps.changes.outputs.bdfile }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          bdfile:
+            - 'base.Dockerfile'
+
+  update-base-image:
+    needs: docker-file-changes
+    runs-on: ubuntu-latest
+    if: ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_PAT }}
+    - name: Build the docker image and push
+      run: |
+        docker build -t ghcr.io/nwchemex-ci-test/base_parallelzone:test -f base.Dockerfile .
+        docker push ghcr.io/nwchemex-ci-test/base_parallelzone:test
+
+  build_update_check:
+    runs-on: ubuntu-latest
+    needs: docker-file-changes
+    outputs:
+      bi_check: ${{ steps.building-image-update.outputs.tag }}
+    steps:
+      - name: Check if the building image has been updated
+        id: building-image-update
+        run: |
+          if [ ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }} ]; then
+             tag="test"
+          else
+             tag="stable"
+          fi
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+
+  build-test-gcc:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: [update-base-image, build_update_check]
+    if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
+    with: 
+      repo: ParallelZone
+      clang-build: false
+      gcc-build: true
+      ninja_build: true
+      test: true
+      integration_test: false
+      install: false
+      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
+    secrets: inherit 
+    #CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
+    #DOCKER_PAT: {{ secrets.DOCKER_PAT }}
+
+  build-test-clang:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: [update-base-image, build_update_check]
+    if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
+    with:
+      repo: ParallelZone
+      clang-build: true
+      gcc-build: false
+      ninja_build: true
+      test: true
+      integration_test: false
+      install: false
+      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
+    secrets: inherit
+  
+  merge-pr-to-dev:
+    runs-on: ubuntu-latest
+    needs: build-with-gcc
+    if: always() && (needs.build-with-gcc.result == 'success')
+    steps:
+      - name: merge pr to dev
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.DOCKER_PAT }}"
+          MERGE_LABELS: ""
+
+  integration_test-gcc:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: [merge-pr-to-dev, build_update_check]
+    if: always() && (needs.merge-pr-to-dev.result == 'success')
+    with:
+      repo: ParallelZone
+      clang-build: false
+      gcc-build: true
+      ninja_build: true
+      test: true
+      integration_test: true
+      install: true
+      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
+      ref: dev
+    secrets: inherit
+
+  integration_test-clang:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: [merge-pr-to-dev, build_update_check]
+    if: always() && (needs.merge-pr-to-dev.result == 'success')
+    with:
+      repo: ParallelZone
+      clang-build: false
+      gcc-build: true
+      ninja_build: true
+      test: true
+      integration_test: true
+      install: true
+      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
+      ref: dev
+    secrets: inherit
+

@@ -13,10 +13,16 @@
 # limitations under the License.
 
 FROM ubuntu:20.04
-LABEL maintainer="NWChemEx-Project" \
-      description="Basic building environment for ParallelZone based on the ubuntu 20.04 image."
+#LABEL maintainer="NWChemEx-Project" \
+#      description="Basic building environment for ParallelZone based on the ubuntu 20.04 image." \
+#      cmake_version="3.17.0" \
+#      catch2_version="2.13.8" 
+      
 
 # Modify this line to test CI workflows ########
+
+ARG GCC_VERSION=9
+ARG CLANG_VERSION=11
 
 # Install basic tools
 RUN    apt-get update \
@@ -24,11 +30,11 @@ RUN    apt-get update \
 		git \
 		wget \
 		pip \
-		gcc \
-		g++ \
-		clang-11 \
-		libc++-11-dev \
-		libc++abi-11-dev \
+		gcc-${GCC_VERSION} \
+		g++-${GCC_VERSION} \
+		clang-${CLANG_VERSION} \
+		libc++-${CLANG_VERSION}-dev \
+		libc++abi-${CLANG_VERSION}-dev \
 		ninja-build \
 		libxml2-dev \
 		libxslt-dev \
@@ -54,8 +60,10 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cm
 ENV PATH="/usr/bin/cmake/bin:${PATH}"
 
 # Install catch2
+ARG CATCH2_VERSION=2.13.8
+
 RUN cd /tmp \
-    && git clone -b v2.13.8 https://github.com/catchorg/Catch2.git \
+    && git clone -b v${CATCH2_VERSION} https://github.com/catchorg/Catch2.git \
     && cd Catch2 \
     && cmake -Bbuild -H. -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/install \
     && cmake --build build \
@@ -67,7 +75,6 @@ RUN cd /tmp \
     && git clone https://github.com/m-a-d-n-e-s-s/madness.git \
     && cd madness \
     && git checkout 997e8b458c4234fb6c8c2781a5df59cb14b7e700 \
-    #&& git checkout eee5fd9f940ef422ee4ee5abf852c910bc826fd4 \
     && export BUILD_TARGET=MADworld \
     && export FIND_TARGET=MADworld \
     && cmake -DENABLE_UNITTESTS=OFF -DMADNESS_BUILD_MADWORLD_ONLY=ON -DMADNESS_ENABLE_CEREAL=ON -DENABLE_MKL=OFF -DENABLE_ACML=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/install -Bbuild . \
@@ -83,7 +90,6 @@ RUN cd /tmp \
     && export BUILD_TARGET=spdlog \
     && export FIND_TARGET=spdlog::spdlog \
     && cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -DCMAKE_CXX_FLAGS="-fPIC" -Bbuild . \
-    #&& cmake -DSPDLOG_INSTALL=ON -DCMAKE_INSTALL_PREFIX=/install -DBUILD_SHARED_LIBS=1 -Bbuild . \
     && cmake --build build \
     && cmake --build build --target install \
     && rm -rf /tmp/spdlog
@@ -99,3 +105,10 @@ RUN cd /tmp \
     && cmake --build build \
     && cmake --build build --target install \
     && rm -rf /tmp/cereal
+
+LABEL maintainer="NWChemEx-Project" \
+      description="Basic building environment for ParallelZone based on the ubuntu 20.04 image." \
+      gcc_version=${GCC_VERSION} \
+      clang_version=${CLANG_VERSION} \
+      cmake_version=${CMAKE_VERSION} \
+      catch2_version=${CATCH2_VERSION}
