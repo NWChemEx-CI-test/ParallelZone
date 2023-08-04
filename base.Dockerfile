@@ -13,11 +13,6 @@
 # limitations under the License.
 
 FROM ubuntu:20.04
-#LABEL maintainer="NWChemEx-Project" \
-#      description="Basic building environment for ParallelZone based on the ubuntu 20.04 image." \
-#      cmake_version="3.17.0" \
-#      catch2_version="2.13.8" 
-      
 
 # Modify this line to test CI workflows ########
 
