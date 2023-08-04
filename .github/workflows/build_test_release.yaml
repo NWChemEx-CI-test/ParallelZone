@@ -87,8 +87,8 @@ jobs:
   
   merge-pr-to-dev:
     runs-on: ubuntu-latest
-    needs: build-with-gcc
-    if: always() && (needs.build-with-gcc.result == 'success')
+    needs: [build-test-gcc, build-test-clang]
+    if: always() && (needs.build-test-gcc.result == 'success') && (needs.build-test-clang.result == 'success')
     steps:
       - name: merge pr to dev
         uses: "pascalgn/automerge-action@v0.15.6"
