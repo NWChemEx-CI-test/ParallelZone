@@ -14,7 +14,7 @@
 
 FROM ubuntu:20.04
 
-# Modify this line to test CI workflows #####
+# Modify this line to test CI workflows ####
 
 ARG GCC_VERSION=9
 ARG CLANG_VERSION=11
