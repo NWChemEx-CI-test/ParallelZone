@@ -118,7 +118,6 @@ jobs:
       test: true
       integration_test: false
       install: false
-      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
     secrets: inherit 
     #CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
     #DOCKER_PAT: {{ secrets.DOCKER_PAT }}
@@ -135,7 +134,6 @@ jobs:
       test: true
       integration_test: false
       install: false
-      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
     secrets: inherit
   
   merge-pr-to-dev:
@@ -161,7 +159,6 @@ jobs:
       test: true
       integration_test: true
       install: true
-      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
       ref: dev
     secrets: inherit
 
@@ -177,7 +174,6 @@ jobs:
       test: true
       integration_test: true
       install: true
-      base_image_tag: ${{ needs.build_update_check.outputs.bi_check }}
       ref: dev
     secrets: inherit
 
