@@ -10,7 +10,6 @@
 # This workflow should run in the branch which opens a
 # PR to dev.
 
-
 name: Build test release
 
 on:
@@ -69,7 +68,7 @@ jobs:
           fi
           echo "tag=$tag" >> $GITHUB_OUTPUT
 
-build-building-image-gcc:
+  build-building-image-gcc:
     runs-on: ubuntu-latest
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
