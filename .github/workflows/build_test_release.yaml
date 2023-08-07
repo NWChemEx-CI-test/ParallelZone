@@ -1,0 +1,193 @@
+# This workflows handles any updates in the source codes
+# and/or image dockerfiles.
+# The building image is built on-the-fly using the base
+# image (no release images of the dependent repos!).
+# In the end two new release images
+# ghcr.io/nwchemex-ci-test/release_parallelzone:gcc(clang)-latest
+# are generated. Whether these images are stable
+# (do not break any downstream repos) or not is still 
+# to be tested.
+# This workflow should run in the branch which opens a
+# PR to dev.
+
+name: Build test release
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  docker-file-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      build_dockfile: ${{ steps.changes.outputs.bdfile }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          bdfile:
+            - 'base.Dockerfile'
+
+  update-base-image:
+    needs: docker-file-changes
+    runs-on: ubuntu-latest
+    if: ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_PAT }}
+    - name: Build the docker image and push
+      run: |
+        docker pull ghcr.io/nwchemex-ci-test/base_parallelzone:stable
+        docker build -t ghcr.io/nwchemex-ci-test/base_parallelzone:test \
+        --cache-from ghcr.io/nwchemex-ci-test/base_parallelzone:stable \
+        -f base.Dockerfile .
+        docker push ghcr.io/nwchemex-ci-test/base_parallelzone:test
+
+  build_update_check:
+    runs-on: ubuntu-latest
+    needs: docker-file-changes
+    outputs:
+      bi_check: ${{ steps.building-image-update.outputs.tag }}
+    steps:
+      - name: Check if the building image has been updated
+        id: building-image-update
+        run: |
+          if [ ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }} ]; then
+             tag="test"
+          else
+             tag="stable"
+          fi
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+
+  build-building-image-gcc:
+    runs-on: ubuntu-latest
+    needs: [update-base-image, build_update_check]
+    if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_PAT }}
+      - uses: actions/checkout@v3
+      - name: Build temporary building image for gcc
+        run: |
+          docker build -t ghcr.io/nwchemex-ci-test/building-image:gcc-tmp \
+          -f build_tmp.Dockerfile . \
+          --build-arg btag=${{needs.build_update_check.outputs.bi_check}} 
+          docker push ghcr.io/nwchemex-ci-test/building-image:gcc-tmp
+
+  build-building-image-clang:
+    runs-on: ubuntu-latest
+    needs: [update-base-image, build_update_check]
+    if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_PAT }}
+      - uses: actions/checkout@v3
+      - name: Build temporary building image for clang
+        run: |
+          docker build -t ghcr.io/nwchemex-ci-test/building-image:clang-tmp \
+          -f build_tmp.Dockerfile . \
+          --build-arg btag=${{needs.build_update_check.outputs.bi_check}} 
+          docker push ghcr.io/nwchemex-ci-test/building-image:clang-tmp
+
+  build-test-gcc:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: build-building-image-gcc
+    if: always() && (needs.build-building-image-gcc.result == 'success')
+    with: 
+      repo: ParallelZone
+      clang-build: false
+      gcc-build: true
+      ninja_build: true
+      test: true
+      integration_test: false
+      install: false
+    secrets: inherit 
+    #CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
+    #DOCKER_PAT: {{ secrets.DOCKER_PAT }}
+
+  build-test-clang:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: build-building-image-clang
+    if: always() && (needs.build-building-image-clang.result == 'success')
+    with:
+      repo: ParallelZone
+      clang-build: true
+      gcc-build: false
+      ninja_build: true
+      test: true
+      integration_test: false
+      install: false
+    secrets: inherit
+  
+  merge-pr-to-dev:
+    runs-on: ubuntu-latest
+    needs: [build-test-gcc, build-test-clang]
+    if: always() && (needs.build-test-gcc.result == 'success') && (needs.build-test-clang.result == 'success')
+    steps:
+      - name: merge pr to dev
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.DOCKER_PAT }}"
+          MERGE_LABELS: ""
+
+  integration_test-gcc:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: [merge-pr-to-dev, build_update_check]
+    if: always() && (needs.merge-pr-to-dev.result == 'success')
+    with:
+      repo: ParallelZone
+      clang-build: false
+      gcc-build: true
+      ninja_build: true
+      test: true
+      integration_test: true
+      install: true
+      ref: dev
+    secrets: inherit
+
+  integration_test-clang:
+    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+    needs: [merge-pr-to-dev, build_update_check]
+    if: always() && (needs.merge-pr-to-dev.result == 'success')
+    with:
+      repo: ParallelZone
+      clang-build: true
+      gcc-build: false
+      ninja_build: true
+      test: true
+      integration_test: true
+      install: true
+      ref: dev
+    secrets: inherit
+
+  Merge:
+    runs-on: ubuntu-latest
+    needs: [integration_test-gcc, integration_test-clang]
+    if: always() && (needs.integration_test-gcc.result == 'success') && (needs.integration_test-clang.result == 'success')
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: merge dev to master
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: dev
+          target_branch: master
+          github_token: ${{ secrets.DOCKER_PAT }}
