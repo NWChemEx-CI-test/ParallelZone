@@ -108,8 +108,8 @@ jobs:
 
   build-test-gcc:
     uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
-    needs: [update-base-image, build_update_check]
-    if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
+    needs: build-building-image-gcc
+    if: always() && (needs.build-building-image-gcc.result == 'success')
     with: 
       repo: ParallelZone
       clang-build: false
@@ -124,8 +124,8 @@ jobs:
 
   build-test-clang:
     uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
-    needs: [update-base-image, build_update_check]
-    if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
+    needs: build-building-image-clang
+    if: always() && (needs.build-building-image-clang.result == 'success')
     with:
       repo: ParallelZone
       clang-build: true
