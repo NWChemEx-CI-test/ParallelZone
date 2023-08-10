@@ -1,0 +1,60 @@
+name: Build base image
+
+on:
+  workflow_dispatch:
+    inputs:
+      cmake_version:
+        type: string
+        required: false
+        default: 3.17.0
+      gcc_version:
+        type: string
+        required: false
+        default: 9
+      ubuntu_version:
+        type: string
+        required: false
+        default: 20.04
+      madness_version:
+        type: string
+        required: false
+        default: 997e8b458c4234fb6c8c2781a5df59cb14b7e700
+      catch2_version:
+        type: string
+        required: false
+        default: 2.13.8
+      spdlog_version:
+        type: string
+        required: false
+        default: ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36
+      cereal_version:
+        type: string
+        required: false
+        default: 1.3.0
+
+jobs:
+  build-image-gcc-cmake:
+    uses: NWChemEx-CI-test/.github/.github/workflows/base_image_gcc-cmake.yaml@master
+    with:
+      cmake_version: ${{ inputs.cmake_version }}
+      gcc_version: ${{ inputs.gcc_version }}
+      ubuntu_version: ${{ inputs.ubuntu_version }}
+    secrets: inherit
+
+  build-base-image:
+    runs-on: ubuntu-latest
+    needs: build-image-gcc-cmake
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_PAT }}
+      - name: Install MADNESS and MPI
+        uses: NWChemEx-CI-test/.github/actions/install_one@master
+        with:
+          madness_version: ${{ inputs.madness_version }}
+          package_name: ${{ inputs.package_name }}
+          parent_package_name: ${{ inputs.parent_package_name }}
