@@ -120,5 +120,5 @@ jobs:
         with:
           tmp_image_name: base-catch2
           tmp_image_tag: latest
-          image_name: ghcr.io/nwchemex-ci-test/base-parallelzone
+          image_name: ghcr.io/nwchemex-ci-test/base_parallelzone
           image_tag: latest
