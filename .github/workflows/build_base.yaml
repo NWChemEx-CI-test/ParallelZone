@@ -11,6 +11,10 @@ on:
         type: string
         required: false
         default: 9
+      clang_version:
+        type: string
+        required: false
+        default: 11
       ubuntu_version:
         type: string
         required: false
@@ -33,17 +37,18 @@ on:
         default: 1.3.0
 
 jobs:
-  build-image-gcc-cmake:
-    uses: NWChemEx-CI-test/.github/.github/workflows/base_image_gcc-cmake.yaml@master
+  build-image-gcc-clang-cmake:
+    uses: NWChemEx-CI-test/.github/.github/workflows/base_image_gcc-clang-cmake.yaml@master
     with:
       cmake_version: ${{ inputs.cmake_version }}
       gcc_version: ${{ inputs.gcc_version }}
+      clang_version: ${{ inputs.clang_version }}
       ubuntu_version: ${{ inputs.ubuntu_version }}
     secrets: inherit
 
   build-base-image:
     runs-on: ubuntu-latest
-    needs: build-image-gcc-cmake
+    needs: build-image-gcc-clang-cmake
     steps:
       - uses: actions/checkout@v3
       - name: Login to GitHub Container Registry
@@ -77,9 +82,9 @@ jobs:
           package_name: catch2
           parent_image_name: base-cereal
       - name: Push the base image
-        env:
+        uses: NWChemEx-CI-test/.github/actions/push_image@master
+        with:
           tmp_image_name: base-catch2
-          base_image_name: ghcr.io/nwchemex-ci-test/base-parallelzone
-        run: |
-          docker tag ${{env.tmp_image_name}}:latest ${{env.base_image_name}}:latest
-          docker push ${{env.base_image_name}}:latest
+          tmp_image_tag: latest
+          image_name: ghcr.io/nwchemex-ci-test/base-parallelzone
+          image_tag: latest
