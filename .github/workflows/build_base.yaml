@@ -79,7 +79,7 @@ jobs:
       - name: Push the base image
         env:
           tmp_image_name: base-catch2
-          base_image_name: ghcr.io/nwchemex-ci-test/base-parallelzone:latest
+          base_image_name: ghcr.io/nwchemex-ci-test/base-parallelzone
         run: |
           docker tag ${{env.tmp_image_name}}:latest ${{env.base_image_name}}:latest
           docker push ${{env.base_image_name}}:latest
