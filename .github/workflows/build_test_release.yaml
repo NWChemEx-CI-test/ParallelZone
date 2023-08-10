@@ -31,29 +31,34 @@ jobs:
           bdfile:
             - 'Dockerfile/**'
 
-  update-base-image:
+              #update-base-image:
+              #  needs: docker-file-changes
+              #  runs-on: ubuntu-latest
+              #  if: ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }}
+              #  steps:
+              #  - name: Checkout
+              #    uses: actions/checkout@v3
+              #  - name: Login to GitHub Container Registry
+              #    uses: docker/login-action@v2
+              #    with:
+              #      registry: ghcr.io
+              #      username: ${{ github.actor }}
+              #      password: ${{ secrets.DOCKER_PAT }}
+              #      #- name: Build the docker image and push
+              #      #  run: |
+              #      #    docker pull ghcr.io/nwchemex-ci-test/base_parallelzone:stable
+              #      #    docker build -t ghcr.io/nwchemex-ci-test/base_parallelzone:test \
+              #      #    --cache-from ghcr.io/nwchemex-ci-test/base_parallelzone:stable \
+              #      #    -f base.Dockerfile .
+              #      #    docker push ghcr.io/nwchemex-ci-test/base_parallelzone:test
+              #  - name: rebuild the base image
+              #    uses: NWChemEx-CI-test/ParallelZone/.github/workflows/build_base.yaml@master
+
+  update-base-image:  
     needs: docker-file-changes
-    runs-on: ubuntu-latest
     if: ${{ needs.docker-file-changes.outputs.build_dockfile == 'true' }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.DOCKER_PAT }}
-        #- name: Build the docker image and push
-        #  run: |
-        #    docker pull ghcr.io/nwchemex-ci-test/base_parallelzone:stable
-        #    docker build -t ghcr.io/nwchemex-ci-test/base_parallelzone:test \
-        #    --cache-from ghcr.io/nwchemex-ci-test/base_parallelzone:stable \
-        #    -f base.Dockerfile .
-        #    docker push ghcr.io/nwchemex-ci-test/base_parallelzone:test
-    - name: rebuild the base image
-      uses: NWChemEx-CI-test/ParallelZone/.github/workflows/build_base.yaml@master
-     
+    uses: NWChemEx-CI-test/ParallelZone/.github/workflows/build_base.yaml@master
+    secrets: inherit   
 
   build_update_check:
     runs-on: ubuntu-latest
