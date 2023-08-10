@@ -1,6 +1,40 @@
 name: Build base image
 
 on:
+  workflow_call:
+    inputs:
+      cmake_version:
+        type: string
+        required: false
+        default: 3.17.0
+      gcc_version:
+        type: string
+        required: false
+        default: 9
+      clang_version:
+        type: string
+        required: false
+        default: 11
+      ubuntu_version:
+        type: string
+        required: false
+        default: 20.04
+      madness_version:
+        type: string
+        required: false
+        default: 997e8b458c4234fb6c8c2781a5df59cb14b7e700
+      catch2_version:
+        type: string
+        required: false
+        default: 2.13.8
+      spdlog_version:
+        type: string
+        required: false
+        default: ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36
+      cereal_version:
+        type: string
+        required: false
+        default: 1.3.0
   workflow_dispatch:
     inputs:
       cmake_version:
