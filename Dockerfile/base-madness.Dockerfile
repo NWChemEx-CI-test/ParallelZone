@@ -1,6 +1,6 @@
 ARG PARENT_IMAGE_NAME
 
-FROM ${PARENT_image_NAME}:latest
+FROM ${PARENT_IMAGE_NAME}:latest
 
 # Install mpi
 RUN    apt-get update \
