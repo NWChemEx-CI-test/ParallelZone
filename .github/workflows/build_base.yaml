@@ -56,5 +56,5 @@ jobs:
         uses: NWChemEx-CI-test/.github/actions/install_one@master
         with:
           madness_version: ${{ inputs.madness_version }}
-          package_name: ${{ inputs.package_name }}
-          parent_package_name: ${{ inputs.parent_package_name }}
+          package_name: madness
+          parent_package_name: cmake
