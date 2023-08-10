@@ -4,7 +4,7 @@ FROM ${PARENT_IMAGE_NAME}:latest
 
 ARG CATCH2_VERSION
 
-# Install catch2 #
+# Install catch2 ##
 RUN cd /tmp \
     && git clone -b v${CATCH2_VERSION} https://github.com/catchorg/Catch2.git \
     && cd Catch2 \
