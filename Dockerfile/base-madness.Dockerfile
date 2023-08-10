@@ -1,6 +1,6 @@
-ARG PARENT_PACKAGE_NAME
+ARG PARENT_IMAGE_NAME
 
-FROM ghcr.io/nwchemex-ci-test/base-${PARENT_PACKAGE_NAME}:latest
+FROM ${PARENT_image_NAME}:latest
 
 # Install mpi
 RUN    apt-get update \
