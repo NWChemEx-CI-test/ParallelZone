@@ -134,7 +134,7 @@ jobs:
           password: "${{ secrets.DOCKERHUB_PAT }}"
           tag: stable
       - name: Push stable release image if not exist
-        if: ${{ steps.image_exists.conclusion != 'true' }}
+        if: ${{ steps.image_exists.conclusion != 'success' }}
         uses: NWChemEx-CI-test/.github/actions/push_image@master
         with:
           tmp_image_name: ghcr.io/nwchemex-ci-test/base_parallelzone
