@@ -126,7 +126,7 @@ jobs:
         id: image_exists
         uses: cloudposse/github-action-docker-image-exists@main
         with:
-          image_name: base_parallelzone
+          image_name: nwchemex-ci-test/base_parallelzone
           registry: ghcr.io
           organization: "${{ github.event.repository.owner.login }}"
           repository: "${{ github.event.repository.name }}"
