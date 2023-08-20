@@ -1,0 +1,47 @@
+name: container action to build ParallelZone
+
+description: container action from the base image to build ParallelZone
+
+inputs:
+  btag:
+    description: 'tag of the base image'
+    required: false
+    default: 'stable'
+  token:
+    required: true
+  user:
+    required: true
+  cmake_version:
+    required: false
+    default: ''
+  gcc_version:
+    required: false
+    default: ''
+  clang_version:
+    required: false
+    default: ''
+  ninja_build:
+    required: true
+  use_clang:
+    required: true
+  CMAIZE_GITHUB_TOKEN:
+    required: true
+  INSTALL:
+    required: true
+    #outputs:
+    #  gcc_version: # id of output
+    #    description: the gcc version in the image used
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.token }} # 1
+    - ${{ inputs.user }}  # 2
+    - ${{ inputs.btag }}  # 3
+    - ${{ inputs.cmake_version }} # 4
+    - ${{ inputs.gcc_version }} # 5
+    - ${{ inputs.clang_version }} # 6
+    - ${{ inputs.ninja_build }} # 7
+    - ${{ inputs.use_clang }} # 8
+    - ${{ inputs.CMAIZE_GITHUB_TOKEN }} # 9
+    - ${{ inputs.INSTALL }} # 10
