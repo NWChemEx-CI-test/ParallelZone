@@ -55,6 +55,9 @@ else
   } >> "${toolchain_file}"
 fi
 
+# go to the repo root directory
+cd ../../../
+
 #Step 2: Configure
 if [ "${env_install}" = true ]; then
   export INSTALL_PATH=/install
