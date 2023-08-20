@@ -11,6 +11,11 @@
 
 set -e # Exit with error if any command fails
 
+# checkout repo
+
+git clone https://github.com/NWChemEx-CI-test/ParallelZone.git
+cd ParallelZone
+
 cmake_command=cmake
 toolchain_file=$(pwd)/toolchain.cmake
 
@@ -54,9 +59,6 @@ else
     echo "set(CMAKE_CXX_COMPILER /usr/bin/g++-${env_gcc_version})"  
   } >> "${toolchain_file}"
 fi
-
-# go to the repo root directory
-cd ../../../
 
 #Step 2: Configure
 if [ "${env_install}" = true ]; then
