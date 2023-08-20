@@ -94,6 +94,6 @@ jobs:
       test: true
       integration_test: false
       install: true
-      btag: ${{needs.build_update_check.outputs.bi_check}}
+      base_image_tag: ${{needs.build_update_check.outputs.bi_check}}
     secrets: inherit
   
