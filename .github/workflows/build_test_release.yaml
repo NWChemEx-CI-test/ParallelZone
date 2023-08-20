@@ -19,6 +19,8 @@ on:
     branches:
       - master
   workflow_dispatch:
+  push:
+    branches: dev_pr3
 
 jobs:
   # TODO: obtain package version info
