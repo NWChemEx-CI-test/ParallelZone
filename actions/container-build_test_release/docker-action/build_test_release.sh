@@ -110,6 +110,7 @@ if [ "${env_install}" = true ]; then
 fi
 
 # Step 6: release
+systemctl start docker
 cp -r /install ./
 if [ "${env_install}" = true ]; then
    echo "Pushing release image..."
