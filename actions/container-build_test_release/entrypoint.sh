@@ -23,12 +23,12 @@ docker ps -a
 container_id="$(docker ps -a  | grep 'docker-action')"
 container_id="${container_id%% *}"
 echo "container_id is " ${container_id}
-docker cp ${container_id}:/install /install
-ls /install
+docker cp ${container_id}:/install ./install
+ls ./install
 
 cat <<EOF>> release.Dockerfile
 FROM ubuntu:20.04
-ADD /install /install
+ADD install /install
 EOF
 
 if [ "${USE_CLANG}" = true ]; then
