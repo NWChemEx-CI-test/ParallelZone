@@ -106,6 +106,11 @@ if [ "${env_install}" = true ]; then
   ${cmake_command} --build build --target install
 fi
 
+# Starting docker daemon?
+apt-get update
+apt-get install systemd
+systemctl start docker
+
 # Step 6: release
 cp -r /install ./
 if [ "${env_install}" = true ]; then
