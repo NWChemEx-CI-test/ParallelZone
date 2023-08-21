@@ -83,13 +83,7 @@ echo "unit_test = " "${env_unit_test}"
 #Step 3: Compile
 ${cmake_command} --build build
 
-#Step 4: Install
-if [ "${env_install}" = true ]; then
-  echo "Installing package..."
-  ${cmake_command} --build build --target install
-fi
-
-# Step 5: test
+# Step 4: test
 
 # set up the envs for running mpiexec in a container
 # otherwise tests would fail
@@ -108,6 +102,12 @@ if [ "${env_int_test}" = true ]; then
   ${ctest_command} -VV -R test_integration*
 fi
 cd ..
+
+#Step 5: Install
+if [ "${env_install}" = true ]; then
+  echo "Installing package..."
+  ${cmake_command} --build build --target install
+fi
 
 # Step 6: release
 cp -r /install ./
