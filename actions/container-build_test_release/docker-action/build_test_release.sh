@@ -114,10 +114,10 @@ cp -r /install ./
 if [ "${env_install}" = true ]; then
    echo "Pushing release image..."
    if [ "${env_use_clang}" = true ]; then
-      docker build -t ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:clang-latest -f Dockerfile/release.Dockerfile .
-      docker push ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:clang-latest
+      docker build -t ghcr.io/nwchemex-ci-test/release_parallelzone:clang-latest -f Dockerfile/release.Dockerfile .
+      docker push ghcr.io/nwchemex-ci-test/release_parallelzone:clang-latest
    else
-      docker build -t ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:gcc-latest -f Dockerfile/release.Dockerfile .
-      docker push ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:gcc-latest
+      docker build -t ghcr.io/nwchemex-ci-test/release_parallelzone:gcc-latest -f Dockerfile/release.Dockerfile .
+      docker push ghcr.io/nwchemex-ci-test/release_parallelzone:gcc-latest
    fi
 fi
