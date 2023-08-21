@@ -27,7 +27,7 @@ docker cp ${container_id}:/install ./install
 #ls ./install
 
 cat <<EOF>> release.Dockerfile
-FROM ubuntu:20.04
+FROM scratch
 ADD install /install
 EOF
 
