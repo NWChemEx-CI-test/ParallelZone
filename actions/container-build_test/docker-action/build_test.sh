@@ -17,6 +17,7 @@ git clone https://github.com/NWChemEx-CI-test/ParallelZone.git
 cd ParallelZone
 
 cmake_command=cmake
+ctest_command=ctest
 toolchain_file=$(pwd)/toolchain.cmake
 
 
@@ -83,3 +84,23 @@ ${cmake_command} --build build
 if [ "${env_install}" = true ]; then
   ${cmake_command} --build build --target install
 fi
+
+# Step 5: test
+
+# set up the envs for running mpiexec in a container
+# otherwise tests would fail
+export OMPI_ALLOW_RUN_AS_ROOT=1
+export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
+cd build
+# unit testing
+if [[ "${env_unit_test}" == "true" ]]; then
+   echo "Running unit tests..."
+   ${ctest_command} -VV -R test_unit*
+fi
+# integration testing
+if [[ "${env_int_test}" == "true" ]]; then
+  echo "Running integration tests..."
+  ${ctest_command} -VV -R test_integration*
+fi
+cd ..

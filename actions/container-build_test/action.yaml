@@ -28,6 +28,10 @@ inputs:
     required: true
   INSTALL:
     required: true
+  test:
+    required: true
+  integration_test:
+    required: true
     #outputs:
     #  gcc_version: # id of output
     #    description: the gcc version in the image used
@@ -45,3 +49,5 @@ runs:
     - ${{ inputs.use_clang }} # 8
     - ${{ inputs.CMAIZE_GITHUB_TOKEN }} # 9
     - ${{ inputs.INSTALL }} # 10
+    - ${{ inputs.test }} # 11
+    - ${{ inputs.integration_test }} # 12
