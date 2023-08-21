@@ -107,9 +107,7 @@ if [ "${env_install}" = true ]; then
 fi
 
 # Starting docker daemon?
-apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y systemd
-systemctl start docker
+dockerd
 
 # Step 6: release
 cp -r /install ./
