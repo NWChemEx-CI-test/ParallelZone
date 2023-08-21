@@ -8,29 +8,40 @@ inputs:
     required: false
     default: 'stable'
   token:
+    type: string
     required: true
   user:
+    type: string
     required: true
   cmake_version:
+    type: string
     required: false
     default: ''
   gcc_version:
+    type: string
     required: false
     default: ''
   clang_version:
+    type: string
     required: false
     default: ''
   ninja_build:
+    type: boolean
     required: true
   use_clang:
+    type: boolean
     required: true
   CMAIZE_GITHUB_TOKEN:
+    type: string
     required: true
   INSTALL:
+    type: boolean
     required: true
   test:
+    type: boolean
     required: true
   integration_test:
+    type: boolean
     required: true
     #outputs:
     #  gcc_version: # id of output

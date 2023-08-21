@@ -65,35 +65,43 @@ jobs:
           fi
           echo "tag=$tag" >> $GITHUB_OUTPUT
 
-  build-test-gcc:
-    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+  build_test_release-gcc:
+    uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
     with: 
-      repo: ParallelZone
-      clang-build: false
-      gcc-build: true
+    #clang-build: false
+    #gcc-build: true
       ninja_build: true
       test: true
       integration_test: false
-      install: true
-      base_image_tag: ${{needs.build_update_check.outputs.bi_check}}
+      INSTALL: true
+      btag: ${{needs.build_update_check.outputs.bi_check}}
+      token: ${{ secrets.DOCKER_PAT }}
+      user: ${{ github.actor }}
+      cmake_version: 3.17.0
+      gcc_version: 9
+      use_clang: false
+      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
     secrets: inherit 
     #CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
     #DOCKER_PAT: {{ secrets.DOCKER_PAT }}
 
-  build-test-clang:
-    uses: NWChemEx-CI-test/.github/.github/workflows/build_test_release_tmpl.yaml@master
+  build_test_release-clang:
+    uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
     with:
-      repo: ParallelZone
-      clang-build: true
-      gcc-build: false
       ninja_build: true
       test: true
       integration_test: false
-      install: true
-      base_image_tag: ${{needs.build_update_check.outputs.bi_check}}
+      INSTALL: true
+      btag: ${{needs.build_update_check.outputs.bi_check}}
+      token: ${{ secrets.DOCKER_PAT }}
+      user: ${{ github.actor }}
+      cmake_version: 3.17.0
+      clang_version: 11
+      use_clang: true
+      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
     secrets: inherit
   

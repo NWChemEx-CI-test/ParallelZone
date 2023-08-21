@@ -62,26 +62,29 @@ else
 fi
 
 #Step 2: Configure
-if [ "${env_install}" = true ]; then
+if [ ${env_install} = true ]; then
   export INSTALL_PATH=/install
-  if [ "${env_ninja_build}" == true ] ; then
+  if [ ${env_ninja_build} = true ] ; then
     ${cmake_command} -GNinja -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}" -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}
   else
     ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}" -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}
   fi
 else
-  if [ "${env_ninja_build}" = true ] ; then
+  if [ ${env_ninja_build} = true ] ; then
     ${cmake_command} -GNinja -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
   else
     ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
   fi
 fi
 
+echo "install = " ${env_install}
+echo "unit_test = " ${env_unit_test}
+
 #Step 3: Compile
 ${cmake_command} --build build
 
 #Step 4: Install
-if [ "${env_install}" = true ]; then
+if [ ${env_install} = true ]; then
   echo "Installing package..."
   ${cmake_command} --build build --target install
 fi
@@ -95,13 +98,26 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 cd build
 # unit testing
-if [ "${env_unit_test}" = true ]; then
+if [ ${env_unit_test} = true ]; then
    echo "Running unit tests..."
    ${ctest_command} -VV -R test_unit*
 fi
 # integration testing
-if [ "${env_int_test}" = true ]; then
+if [ ${env_int_test} = true ]; then
   echo "Running integration tests..."
   ${ctest_command} -VV -R test_integration*
 fi
 cd ..
+
+# Step 6: release
+cp -r /install ./
+if [ ${env_install} = true ]; then
+   echo "Pushing release image..."
+   if [ ${env_use_clang} = true ]; then
+      docker build -t ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:clang-latest -f Dockerfile/release.Dockerfile .
+      docker push ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:clang-latest
+   else
+      docker build -t ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:gcc-latest -f Dockerfile/release.Dockerfile .
+      docker push ghcr.io/nwchemex-ci-test/release_${{needs.Repo_name_lowcase.outputs.lowcase_repo_name}}:gcc-latest
+   fi
+fi

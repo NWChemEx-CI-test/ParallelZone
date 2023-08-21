@@ -2,9 +2,9 @@ ARG btag
 
 FROM ghcr.io/nwchemex-ci-test/base_parallelzone:$btag
 
-COPY build_test.sh /build_test.sh
+COPY build_test_release.sh /build_test_release.sh
 
-RUN ["chmod", "+x", "/build_test.sh"]
+RUN ["chmod", "+x", "/build_test_release.sh"]
 
 ARG cmake_version
 ARG gcc_version
@@ -26,4 +26,4 @@ ENV env_install=$install
 ENV env_unit_test=$unit_test
 ENV env_int_test=$int_test
 
-ENTRYPOINT ["/build_test.sh"]
+ENTRYPOINT ["/build_test_release.sh"]
