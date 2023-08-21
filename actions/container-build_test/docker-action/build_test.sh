@@ -82,6 +82,7 @@ ${cmake_command} --build build
 
 #Step 4: Install
 if [ "${env_install}" = true ]; then
+  echo "Installing package..."
   ${cmake_command} --build build --target install
 fi
 
@@ -94,12 +95,12 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 cd build
 # unit testing
-if [[ "${env_unit_test}" == "true" ]]; then
+if [ "${env_unit_test}" = true ]; then
    echo "Running unit tests..."
    ${ctest_command} -VV -R test_unit*
 fi
 # integration testing
-if [[ "${env_int_test}" == "true" ]]; then
+if [ "${env_int_test}" = true ]; then
   echo "Running integration tests..."
   ${ctest_command} -VV -R test_integration*
 fi
