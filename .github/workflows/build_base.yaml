@@ -131,7 +131,7 @@ jobs:
           organization: "${{ github.event.repository.owner.login }}"
           repository: "${{ github.event.repository.name }}"
           login: ${{ github.actor }}
-          password: "${{ secrets.DOCKERHUB_PAT }}"
+          password: "${{ secrets.DOCKER_PAT }}"
           tag: stable
       - name: Push stable release image if not exist
         if: ${{ steps.image_exists.conclusion != 'success' }}

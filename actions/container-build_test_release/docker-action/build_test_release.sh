@@ -77,9 +77,6 @@ else
   fi
 fi
 
-echo "install = " "${env_install}"
-echo "unit_test = " "${env_unit_test}"
-
 #Step 3: Compile
 ${cmake_command} --build build
 
@@ -109,8 +106,10 @@ if [ "${env_install}" = true ]; then
   ${cmake_command} --build build --target install
 fi
 
+# Re-install docker?
+apt-get install docker.io
+
 # Step 6: release
-systemctl start docker
 cp -r /install ./
 if [ "${env_install}" = true ]; then
    echo "Pushing release image..."

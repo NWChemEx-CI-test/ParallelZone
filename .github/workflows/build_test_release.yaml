@@ -70,6 +70,12 @@ jobs:
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
     steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_PAT }}
       - uses: actions/checkout@v3
       - name: build test release in a container
         uses: ./actions/container-build_test_release
@@ -85,12 +91,37 @@ jobs:
           gcc_version: 9
           use_clang: false
           CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
+     - name: Check stable release image
+        id: image_exists
+        uses: cloudposse/github-action-docker-image-exists@main
+        with:
+          image_name: nwchemex-ci-test/release_parallelzone
+          registry: ghcr.io
+          organization: "${{ github.event.repository.owner.login }}"
+          repository: "${{ github.event.repository.name }}"
+          login: ${{ github.actor }}
+          password: "${{ secrets.DOCKER_PAT }}"
+          tag: gcc-stable
+      - name: Push stable release image if not exist
+        if: ${{ steps.image_exists.conclusion != 'success' }}
+        uses: NWChemEx-CI-test/.github/actions/push_image@master
+        with:
+          tmp_image_name: ghcr.io/nwchemex-ci-test/release_parallelzone
+          tmp_image_tag: gcc-latest
+          image_name: ghcr.io/nwchemex-ci-test/release_parallelzone
+          image_tag: gcc-stable
 
   build_test_release-clang:
     runs-on: ubuntu-latest
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
     steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_PAT }}
       - uses: actions/checkout@v3
       - name: build test release in a container
         uses: ./actions/container-build_test_release
@@ -106,4 +137,22 @@ jobs:
           clang_version: 11
           use_clang: true
           CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
-  
+     - name: Check stable release image
+        id: image_exists
+        uses: cloudposse/github-action-docker-image-exists@main
+        with:
+          image_name: nwchemex-ci-test/release_parallelzone
+          registry: ghcr.io
+          organization: "${{ github.event.repository.owner.login }}"
+          repository: "${{ github.event.repository.name }}"
+          login: ${{ github.actor }}
+          password: "${{ secrets.DOCKER_PAT }}"
+          tag: clang-stable
+      - name: Push stable release image if not exist
+        if: ${{ steps.image_exists.conclusion != 'success' }}
+        uses: NWChemEx-CI-test/.github/actions/push_image@master
+        with:
+          tmp_image_name: ghcr.io/nwchemex-ci-test/release_parallelzone
+          tmp_image_tag: clang-latest
+          image_name: ghcr.io/nwchemex-ci-test/release_parallelzone
+          image_tag: clang-stable
