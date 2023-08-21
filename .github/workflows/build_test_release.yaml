@@ -70,8 +70,9 @@ jobs:
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
     steps:
+      - uses: actions/checkout@v3
       - name: build test release in a container
-        uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
+        uses: ./actions/container-build_test_release
         with: 
           ninja_build: true
           test: true
@@ -90,8 +91,9 @@ jobs:
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
     steps:
+      - uses: actions/checkout@v3
       - name: build test release in a container
-        uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
+        uses: ./actions/container-build_test_release
         with:
           ninja_build: true
           test: true
