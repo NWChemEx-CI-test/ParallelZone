@@ -106,9 +106,6 @@ if [ "${env_install}" = true ]; then
   ${cmake_command} --build build --target install
 fi
 
-# Re-install docker?
-apt-get install docker.io
-
 # Step 6: release
 cp -r /install ./
 if [ "${env_install}" = true ]; then
