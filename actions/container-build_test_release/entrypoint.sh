@@ -17,4 +17,6 @@ cd /docker-action
 
 echo $CR_PAT | docker login ghcr.io -u $USER --password-stdin
 
+chmod 666 /var/run/docker.sock
+
 docker build -t docker-action --build-arg btag=$BASE_TAG --build-arg gcc_version=$GCC_VRESION --build-arg clang_version=$CLANG_VERSION --build-arg ninja_build=$NINJA_BUILD --build-arg use_clang=$USE_CLANG --build-arg cmaize_github_token=$CMAIZE_GITHUB_TOKEN --build-arg install=$INSTALL --build-arg unit_test=$TEST --build-arg int_test=$INTEGRATION_TEST . && docker run docker-action -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker
