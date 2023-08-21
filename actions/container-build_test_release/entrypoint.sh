@@ -23,7 +23,7 @@ docker ps -a
 container_id="$(docker ps -a  | grep 'docker-action')"
 container_id="${container_id%% *}"
 echo "container_id is " ${container_id}
-docker cp container_id:/install /install
+docker cp ${container_id}:/install /install
 ls /install
 
 cat <<EOF>> release.Dockerfile
