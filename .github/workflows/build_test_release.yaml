@@ -66,42 +66,42 @@ jobs:
           echo "tag=$tag" >> $GITHUB_OUTPUT
 
   build_test_release-gcc:
-    uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
+    runs-on: ubuntu-latest
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
-    with: 
-    #clang-build: false
-    #gcc-build: true
-      ninja_build: true
-      test: true
-      integration_test: false
-      INSTALL: true
-      btag: ${{needs.build_update_check.outputs.bi_check}}
-      token: ${{ secrets.DOCKER_PAT }}
-      user: ${{ github.actor }}
-      cmake_version: 3.17.0
-      gcc_version: 9
-      use_clang: false
-      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
-    secrets: inherit 
-    #CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
-    #DOCKER_PAT: {{ secrets.DOCKER_PAT }}
+    steps:
+      - name: build test release in a container
+        uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
+        with: 
+          ninja_build: true
+          test: true
+          integration_test: false
+          INSTALL: true
+          btag: ${{needs.build_update_check.outputs.bi_check}}
+          token: ${{ secrets.DOCKER_PAT }}
+          user: ${{ github.actor }}
+          cmake_version: 3.17.0
+          gcc_version: 9
+          use_clang: false
+          CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
 
   build_test_release-clang:
-    uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
+    runs-on: ubuntu-latest
     needs: [update-base-image, build_update_check]
     if: always() && (needs.update-base-image.result == 'success' || needs.update-base-image.result == 'skipped')
-    with:
-      ninja_build: true
-      test: true
-      integration_test: false
-      INSTALL: true
-      btag: ${{needs.build_update_check.outputs.bi_check}}
-      token: ${{ secrets.DOCKER_PAT }}
-      user: ${{ github.actor }}
-      cmake_version: 3.17.0
-      clang_version: 11
-      use_clang: true
-      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
-    secrets: inherit
+    steps:
+      - name: build test release in a container
+        uses: NWChemEx-CI-test/ParallelZone/actions/container-build_test_release@master
+        with:
+          ninja_build: true
+          test: true
+          integration_test: false
+          INSTALL: true
+          btag: ${{needs.build_update_check.outputs.bi_check}}
+          token: ${{ secrets.DOCKER_PAT }}
+          user: ${{ github.actor }}
+          cmake_version: 3.17.0
+          clang_version: 11
+          use_clang: true
+          CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
   
