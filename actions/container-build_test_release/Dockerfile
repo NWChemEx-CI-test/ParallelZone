@@ -1,9 +1,10 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
 COPY docker-action /docker-action
 COPY entrypoint.sh /entrypoint.sh
 
-RUN apk add --update --no-cache docker
+#RUN apk add --update --no-cache docker
+RUN apt-get install docker.io
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
