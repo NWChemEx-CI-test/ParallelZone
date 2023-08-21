@@ -106,18 +106,15 @@ if [ "${env_install}" = true ]; then
   ${cmake_command} --build build --target install
 fi
 
-# Starting docker daemon?
-dockerd
-
 # Step 6: release
-cp -r /install ./
-if [ "${env_install}" = true ]; then
-   echo "Pushing release image..."
-   if [ "${env_use_clang}" = true ]; then
-      docker build -t ghcr.io/nwchemex-ci-test/release_parallelzone:clang-latest -f Dockerfile/release.Dockerfile .
-      docker push ghcr.io/nwchemex-ci-test/release_parallelzone:clang-latest
-   else
-      docker build -t ghcr.io/nwchemex-ci-test/release_parallelzone:gcc-latest -f Dockerfile/release.Dockerfile .
-      docker push ghcr.io/nwchemex-ci-test/release_parallelzone:gcc-latest
-   fi
-fi
+#cp -r /install ./
+#if [ "${env_install}" = true ]; then
+#   echo "Pushing release image..."
+#   if [ "${env_use_clang}" = true ]; then
+#      docker build -t ghcr.io/nwchemex-ci-test/release_parallelzone:clang-latest -f Dockerfile/release.Dockerfile .
+#      docker push ghcr.io/nwchemex-ci-test/release_parallelzone:clang-latest
+#   else
+#      docker build -t ghcr.io/nwchemex-ci-test/release_parallelzone:gcc-latest -f Dockerfile/release.Dockerfile .
+#      docker push ghcr.io/nwchemex-ci-test/release_parallelzone:gcc-latest
+#   fi
+#fi
