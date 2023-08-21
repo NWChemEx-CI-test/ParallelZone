@@ -108,7 +108,7 @@ fi
 
 # Starting docker daemon?
 apt-get update
-apt-get install systemd
+DEBIAN_FRONTEND=noninteractive apt-get install -y systemd
 systemctl start docker
 
 # Step 6: release
